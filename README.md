@@ -1,2 +1,2 @@
 # aspnetcore-sqs-mediatr
-Sample used in my post blog about CQS
+Sample used in my blog post about CQS
