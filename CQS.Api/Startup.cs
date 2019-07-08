@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CQS.Api.CommandHandlers;
 using CQS.Api.Commands;
+using CQS.Api.Domain.Notification;
 using CQS.Api.Domain.Queries;
 using CQS.Api.Domain.Queries.Results;
 using CQS.Api.Domain.QueryHandlers;
+using CQS.Api.Infra.BehaviorMediatR;
 using CQS.Api.Infra.Data;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using FluentValidation.AspNetCore;
+using CQS.Api.Domain.Validations;
 
 namespace CQS.Api
 {
@@ -26,16 +32,23 @@ namespace CQS.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddMediatR(typeof(Startup));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidation>());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationRequestBehavior<,>));
+            services.AddMediatR(typeof(Startup));
+            services.AddScoped<IDomainNotificationContext, DomainNotificationContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<AsyncRequestHandler<CreateUserCommand>, UserCommandHandler>();
             services.AddScoped<IRequestHandler<GetPagedUsersQuery, IEnumerable<GetPagedUsersQueryResult>>, UserQueryHandler>();
+
+
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
