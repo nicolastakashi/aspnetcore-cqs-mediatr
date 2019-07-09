@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using CQS.Api.Commands;
+﻿using CQS.Api.Commands;
 using CQS.Api.Entities;
 using CQS.Api.Infra.Data;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Api.CommandHandlers
 {

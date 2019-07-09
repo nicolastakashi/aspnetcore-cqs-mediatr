@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using CQS.Api.Domain.Queries;
+﻿using CQS.Api.Domain.Queries;
 using CQS.Api.Domain.Queries.Results;
 using CQS.Api.Infra.Data;
 using MediatR;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Api.Domain.QueryHandlers
 {

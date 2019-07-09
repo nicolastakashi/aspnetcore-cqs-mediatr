@@ -12,8 +12,8 @@ namespace CQS.Api.Domain.Notification
             _notifications = new List<DomainNotification>();
         }
 
-        public bool HasNotifications
-            => _notifications.Any();
+        public bool HasErrorNotifications
+            => _notifications.Any(x => x.Type == DomainNotificationType.Error);
 
         public void NotifySuccess(string message)
             => Notify(message, DomainNotificationType.Success);
@@ -23,5 +23,8 @@ namespace CQS.Api.Domain.Notification
 
         private void Notify(string message, DomainNotificationType type)
             => _notifications.Add(new DomainNotification(type, message));
+
+        public List<DomainNotification> GetErrorNotifications()
+            => _notifications.Where(x => x.Type == DomainNotificationType.Error).ToList();
     }
 }

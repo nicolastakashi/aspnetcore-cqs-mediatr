@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using CQS.Api.Domain.Queries.Results;
+﻿using CQS.Api.Domain.Queries.Results;
 using MediatR;
+using System.Collections.Generic;
 
 namespace CQS.Api.Domain.Queries
 {
